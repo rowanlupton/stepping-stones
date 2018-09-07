@@ -2,22 +2,25 @@ import React, { Component } from 'react';
 import './App.css';
 
 function Box (props) {
-    return  <div className="Box">
-              <div className="score">{props.score}</div>
-              <div className="bid">{props.bid}</div>
-              <div className="tricks-taken">{props.tricksTaken}</div>
-              <div className="difference">{props.difference}</div>
-            </div>;
+  const {score} = props.firstRow ? {score: 0} : props
+  // if (props.firstRow) { const score = 0 }
+  //   else { const {score} = props }
+  return  <div className="Box">
+            <div className="score">{score}</div>
+            <div className="bid">{props.bid}</div>
+            <div className="tricks-taken">{props.tricksTaken}</div>
+            <div className="difference">{props.difference}</div>
+          </div>;
 }
 Box.defaultProps = {
-    score: 0,
+    score: null,
     bid: null,
     tricksTaken: null,
     difference: null
 }
 
 function Row (props) {
-  const {dealer,trump,cardsNumber,numberOfPlayers} = props
+  const {dealer,trump,cardsNumber,numberOfPlayers,firstRow} = props
   return  <div className="Row">
             <div className="round-information">
               <div className="dealer">{dealer}</div>
@@ -26,7 +29,7 @@ function Row (props) {
             </div>
 
             {[...Array(numberOfPlayers)].map((player,i) =>
-              <Box key={i} />
+              <Box key={i} firstRow={firstRow} />
             )}
           </div>
 }
@@ -58,7 +61,12 @@ class Board extends Component {
     return (
       <div id="board">
         {roundNumbers.map((x,i) =>
-          <Row key={i} rowKey={i} cardsNumber={x} numberOfPlayers={numberOfPlayers} />
+          <Row
+            key={i}
+            rowKey={i}
+            cardsNumber={x}
+            numberOfPlayers={numberOfPlayers}
+            firstRow={i === 0} />
         )}
         hi
       </div>
@@ -126,6 +134,8 @@ class App extends Component {
       toggleRoundOfOne: false,
       players: []
     }
+
+    this.state.settings = true // debug only
     this.updateSettings = this.updateSettings.bind(this)
     this.applySettings = this.applySettings.bind(this)
   }
