@@ -90,13 +90,24 @@ class Settings extends Component {
     } = this.props
     return  <form onSubmit={this.handleSubmit} className="Settings">
               <label>Number of Players:
-                <input type="number" name="numberOfPlayers" onChange={this.handleChange} value={numberOfPlayers} />
+                <input
+                  type="number"
+                  name="numberOfPlayers"
+                  onChange={this.handleChange}
+                  value={numberOfPlayers} />
               </label>
               <label>Starting number:
-                <input type="number" name="startingNumber" onChange={this.handleChange} value={startingNumber} />
+                <input
+                  type="number"
+                  name="startingNumber"
+                  onChange={this.handleChange}
+                  value={startingNumber} />
               </label>
               <label> Play the round of one?
-                <input type="checkbox" name="toggleRoundOfOne" onChange={this.handleChange} value={toggleRoundOfOne} />
+                <input type="checkbox"
+                  name="toggleRoundOfOne"
+                  onChange={this.handleChange}
+                  value={toggleRoundOfOne} />
               </label>
               <label> Start
                 <input type="submit" />
