@@ -135,7 +135,6 @@ class App extends Component {
       players: []
     }
 
-    this.state.settings = true // debug only
     this.updateSettings = this.updateSettings.bind(this)
     this.applySettings = this.applySettings.bind(this)
   }
