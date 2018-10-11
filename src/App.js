@@ -19,6 +19,16 @@ Box.defaultProps = {
     difference: null
 }
 
+function Names (props) {
+  const {players} = props
+  return  <div className="Row name">
+            <div className="Box"></div>
+            {players.map((player,i) =>
+              <div className="Box">{player.name}</div>
+            )}
+          </div>
+}
+
 function Row (props) {
   const {dealer,trump,cardsNumber,players} = props
   return  <div className="Row">
@@ -60,6 +70,7 @@ class Board extends Component {
     const {roundNumbers, players} = this.state
     return (
       <div id="board">
+        <Names players={players}/>
         {roundNumbers.map((x,i) =>
           <Row
             key={i}

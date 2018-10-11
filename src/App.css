@@ -83,6 +83,11 @@ input[type="checkbox"] {
     margin: 5px 0;
 }
 
+.Row.name {
+  color: #dedede;
+  word-wrap: break-word;
+}
+
 .Row .round-information {
     display: flex;
     flex-direction: column;
@@ -92,6 +97,7 @@ input[type="checkbox"] {
     background-color: #dedede;
     color: #232323;
 
+    min-width: 3rem;
     padding: 0.2rem;
     margin-right: 3px;
 }
