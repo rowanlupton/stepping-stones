@@ -20,7 +20,7 @@ Box.defaultProps = {
 }
 
 function Row (props) {
-  const {dealer,trump,cardsNumber,numberOfPlayers,firstRow} = props
+  const {dealer,trump,cardsNumber,players} = props
   return  <div className="Row">
             <div className="round-information">
               <div className="dealer">{dealer}</div>
@@ -28,8 +28,8 @@ function Row (props) {
               <div className="cards-number">{cardsNumber}</div>
             </div>
 
-            {[...Array(numberOfPlayers)].map((player,i) =>
-              <Box key={i} firstRow={firstRow} />
+            {players.map((player,i) =>
+              <Box key={i} score={player.score} />
             )}
           </div>
 }
@@ -57,7 +57,7 @@ class Board extends Component {
   }
 
   render () {
-    const {roundNumbers, numberOfPlayers} = this.state
+    const {roundNumbers, players} = this.state
     return (
       <div id="board">
         {roundNumbers.map((x,i) =>
@@ -65,8 +65,10 @@ class Board extends Component {
             key={i}
             rowKey={i}
             cardsNumber={x}
-            numberOfPlayers={numberOfPlayers}
-            firstRow={i === 0} />
+            players={players}
+            firstRow={i === 0}
+            // score = i === 0 ? 0 : null
+            />
         )}
         hi
       </div>
@@ -103,6 +105,15 @@ class Settings extends Component {
                   name="numberOfPlayers"
                   onChange={this.handleChange}
                   value={numberOfPlayers} />
+              </label>
+              <label>Player names:
+              {[...Array(numberOfPlayers)].map((player,i) =>
+                <input
+                  type="text"
+                  onChange={this.handleChange}
+                  key={i}
+                  data-index={i} />
+              )}
               </label>
               <label>Starting number:
                 <input
@@ -144,7 +155,13 @@ class App extends Component {
     const name = t.name
     const value = t.type === 'checkbox' ? t.checked : Number(t.value)
 
-    this.setState({[name]: value});
+    if (t.type === 'text') {
+      let players = this.state.players
+      players[t.dataset.index] = {'name': t.value}
+      this.setState({players: players})
+    } else {
+      this.setState({[name]: value});
+    }
   }
   applySettings (event) {
     this.setState((settings) => ({settings: true}))
