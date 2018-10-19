@@ -54,6 +54,22 @@ class Round extends Component {
   }
 }
 
+class Wizard extends Component {
+  // placeholder for the bit of code that prompts for round info (e.g. bids,
+  // tricks taken, etc)
+
+  // one Wizard will be in place for every round in a game.
+  // in time, there should be ability to move backward and edit previous entries
+  constructor (props) {
+    super(props)
+    this.state = {...props}
+  }
+
+  render () {
+    return (null)
+  }
+}
+
 class Board extends Component {
   constructor (props) {
     super(props)
@@ -62,6 +78,7 @@ class Board extends Component {
 
     let iterator = [...Array(this.state.startingNumberOfCards)]
     let roundNumbersOfCards = []
+    // i >= 2 because we want to leave off the round of 1 by default
     for (let i = iterator.length; i >= 2; i--) {
       roundNumbersOfCards.push(i);
     }
