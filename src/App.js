@@ -32,7 +32,7 @@ class Round extends Component {
       <div className="Row">
         <div className="round-information">
           <div className="round-number">
-            round of {this.state.roundNumber}
+            round of {this.state.roundNumberOfCards}
           </div>
           <div className="dealer">
             {this.state.players[this.state.dealer].name} to deal
@@ -48,6 +48,7 @@ class Round extends Component {
             player = {player}
           />
         )}
+        <button onClick={this.state.drawRound} />
       </div>
     )
   }
@@ -74,15 +75,14 @@ class Board extends Component {
   drawRound () {
     this.boardElement = document.querySelector('#board')
     this.setState({roundIndex: (this.state.roundIndex+1)})
-    let round = <Round
-                  key = {this.state.roundIndex}
-                  roundNumberOfCards = {this.state.roundNumbersOfCards[this.state.roundIndex]}
-                  players = {this.state.players}
-                  dealer = {(this.state.roundIndex) % this.state.players.length}
-                />
-
     ReactDOM.render (
-      round,
+      <Round
+        key = {this.state.roundIndex}
+        roundNumberOfCards = {this.state.roundNumbersOfCards[this.state.roundIndex]}
+        players = {this.state.players}
+        dealer = {(this.state.roundIndex) % this.state.players.length}
+        drawRound = {this.drawRound}
+      />,
       this.boardElement
     )
   }
