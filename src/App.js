@@ -60,13 +60,26 @@ class Wizard extends Component {
 
   // one Wizard will be in place for every round in a game.
   // in time, there should be ability to move backward and edit previous entries
+
+  // takes props:
+  //   roundIndex
+  //   players
   constructor (props) {
     super(props)
     this.state = {...props}
   }
-
+  handleSubmit(e) {
+    e.preventDefault()
+    document.querySelector('#roundWizard label').innerText = "hello"
+  }
   render () {
-    return (null)
+    return (
+      <form onSubmit={this.handleSubmit} className="Wizard" id="roundWizard">
+        <label>label text</label>
+        <input type="number" />
+        <input type="submit" />
+      </form>
+    )
   }
 }
 
@@ -141,6 +154,7 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Stepping Stones Scoring</h1>
         </header>
+        <Wizard />
         <Board
           startingNumberOfCards = {this.state.startingNumberOfCards}
           roundOfOne = {this.state.roundOfOne}
