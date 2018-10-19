@@ -2,6 +2,7 @@
     text-align: center;
 
     background-color: #232323;
+    background-color: white;
     width: 100vw; min-height: 100vh;
 }
 
@@ -106,13 +107,13 @@ input[type="checkbox"] {
     color: #000;
 }
 
-.Row .round-information div.trump[data-trump="heart"],
-.Row .round-information div.trump[data-trump="diamond"] {
+.Row .round-information div.trump[data-trump="hearts"],
+.Row .round-information div.trump[data-trump="diamonds"] {
     color: red;
 }
 
-.Row .round-information div.trump[data-trump="spade"],
-.Row .round-information div.trump[data-trump="club"] {
+.Row .round-information div.trump[data-trump="spades"],
+.Row .round-information div.trump[data-trump="clubs"] {
     color: black;
 }
 

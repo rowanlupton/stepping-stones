@@ -1,198 +1,134 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import './App.css';
 
-function Box (props) {
-  const {score} = props.firstRow ? {score: 0} : props
-  // if (props.firstRow) { const score = 0 }
-  //   else { const {score} = props }
-  return  <div className="Box">
-            <div className="score">{score}</div>
-            <div className="bid">{props.bid}</div>
-            <div className="tricks-taken">{props.tricksTaken}</div>
-            <div className="difference">{props.difference}</div>
-          </div>;
-}
-Box.defaultProps = {
-    score: null,
-    bid: null,
-    tricksTaken: null,
-    difference: null
+class Box extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {...props}
+  }
+
+  render () {
+    return (
+      <div className="Box">
+        <div className="score">{this.state.player.score}</div>
+      </div>
+    )
+  }
 }
 
-function Names (props) {
-  const {players} = props
-  return  <div className="Row name">
-            <div className="Box"></div>
-            {players.map((player,i) =>
-              <div className="Box">{player.name}</div>
-            )}
+class Round extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {...props}
+    let trumps = ["spades","hearts","diamonds","clubs","no trumps"]
+    this.state.trump = trumps[Math.floor(Math.random()*5)]
+  }
+
+  render () {
+    console.log(this.state.players)
+    console.log(this.state.dealer)
+    return (
+      <div className="Row">
+        <div className="round-information">
+          <div className="round-number">
+            round of {this.state.roundNumber}
           </div>
-}
-
-function Row (props) {
-  const {dealer,trump,cardsNumber,players} = props
-  return  <div className="Row">
-            <div className="round-information">
-              <div className="dealer">{dealer}</div>
-              <div className="trump">{trump}</div>
-              <div className="cards-number">{cardsNumber}</div>
-            </div>
-
-            {players.map((player,i) =>
-              <Box key={i} score={player.score} />
-            )}
+          <div className="dealer">
+            {this.state.players[this.state.dealer].name} to deal
           </div>
-}
-Row.defaultProps = {
-  dealer: null,
-  trump: null,
-  cardsNumber: null
+          <div className="trump" data-trump={this.state.trump}>
+            {this.state.trump}
+          </div>
+        </div>
+
+        {this.state.players.map((player,i) =>
+          <Box
+            key = {i}
+            player = {player}
+          />
+        )}
+      </div>
+    )
+  }
 }
 
 class Board extends Component {
   constructor (props) {
     super(props)
     this.state = {...props}
+    this.state.roundIndex = 0
 
-    let iterator = [...Array(this.state.startingNumber)];
-    let roundNumbers = [];
+    let iterator = [...Array(this.state.startingNumberOfCards)]
+    let roundNumbersOfCards = []
     for (let i = iterator.length; i >= 2; i--) {
-        roundNumbers.push(i);
+      roundNumbersOfCards.push(i);
     }
+    this.state.roundNumbersOfCards = roundNumbersOfCards.concat([...roundNumbersOfCards].reverse())
+    if (this.state.roundOfOne)
+      this.state.roundNumbersOfCards.splice(this.state.startingNumberOfCards-1, 0, 1)
 
-    this.state.roundNumbers = roundNumbers.concat([...roundNumbers].reverse());
-    if (this.state.toggleRoundOfOne) {
-      this.state.roundNumbers.splice(this.state.startingNumber - 1,0,1)
-    }
+    this.drawRound = this.drawRound.bind(this)
+  }
+
+  drawRound () {
+    this.boardElement = document.querySelector('#board')
+    this.setState({roundIndex: (this.state.roundIndex+1)})
+    let round = <Round
+                  key = {this.state.roundIndex}
+                  roundNumberOfCards = {this.state.roundNumbersOfCards[this.state.roundIndex]}
+                  players = {this.state.players}
+                  dealer = {(this.state.roundIndex) % this.state.players.length}
+                />
+
+    ReactDOM.render (
+      round,
+      this.boardElement
+    )
   }
 
   render () {
-    const {roundNumbers, players} = this.state
     return (
       <div id="board">
-        <Names players={players}/>
-        {roundNumbers.map((x,i) =>
-          <Row
-            key={i}
-            rowKey={i}
-            cardsNumber={x}
-            players={players}
-            firstRow={i === 0}
-            // score = i === 0 ? 0 : null
-            />
-        )}
-        hi
+
+        <button onClick={this.drawRound} />
       </div>
     )
   }
 }
 
-class Settings extends Component {
-  constructor(props) {
-    super(props)
-    // this.state = {...props}
-
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+class Player {
+  constructor (props) {
+    this.name = props.name
+    this.score = 0
   }
 
-  handleChange (event) {
-    this.props.updateSettings(event)
+  updateScore (difference) {
+    this.score += difference
   }
-  handleSubmit (event) {
-    event.preventDefault()
-    this.props.applySettings(event)
-  }
-  render () {
-    const {
-      numberOfPlayers,
-      startingNumber,
-      toggleRoundOfOne
-    } = this.props
-    return  <form onSubmit={this.handleSubmit} className="Settings">
-              <label>Number of Players:
-                <input
-                  type="number"
-                  name="numberOfPlayers"
-                  onChange={this.handleChange}
-                  value={numberOfPlayers} />
-              </label>
-              <label>Player names:
-              {[...Array(numberOfPlayers)].map((player,i) =>
-                <input
-                  type="text"
-                  onChange={this.handleChange}
-                  key={i}
-                  data-index={i} />
-              )}
-              </label>
-              <label>Starting number:
-                <input
-                  type="number"
-                  name="startingNumber"
-                  onChange={this.handleChange}
-                  value={startingNumber} />
-              </label>
-              <label> Play the round of one?
-                <input type="checkbox"
-                  name="toggleRoundOfOne"
-                  onChange={this.handleChange}
-                  value={toggleRoundOfOne} />
-              </label>
-              <label> Start
-                <input type="submit" />
-              </label>
-            </form>
-          }
 }
 
 class App extends Component {
   constructor (props) {
-    super(props);
+    super(props)
     this.state = {
-      settings: false,
-      numberOfPlayers: 4,
-      startingNumber: 7,
-      toggleRoundOfOne: false,
-      players: []
+      players: [new Player({name: "rowan"}), new Player({name: "nicki"}), new Player({name: "lynda"})],
+      startingNumberOfCards: 7,
+      roundOfOne: true
     }
-
-    this.updateSettings = this.updateSettings.bind(this)
-    this.applySettings = this.applySettings.bind(this)
-  }
-  updateSettings (event) {
-    const t = event.target
-    // not using the ~~fancy~~ syntax here for consistency with `value`
-    const name = t.name
-    const value = t.type === 'checkbox' ? t.checked : Number(t.value)
-
-    if (t.type === 'text') {
-      let players = this.state.players
-      players[t.dataset.index] = {'name': t.value}
-      this.setState({players: players})
-    } else {
-      this.setState({[name]: value});
-    }
-  }
-  applySettings (event) {
-    this.setState((settings) => ({settings: true}))
   }
 
   render () {
-    const {settings} = this.state
     return (
       <div className="App">
         <header className="App-header">
-            <h1 className="App-title">Stepping Stones Scoring</h1>
+          <h1 className="App-title">Stepping Stones Scoring</h1>
         </header>
-        {!settings ? (
-          <Settings
-            {...this.state}
-            updateSettings={this.updateSettings}
-            applySettings={this.applySettings}/>
-        ) : (
-          <Board {...this.state}/>
-        ) }
+        <Board
+          startingNumberOfCards = {this.state.startingNumberOfCards}
+          roundOfOne = {this.state.roundOfOne}
+          players = {this.state.players}
+        />
       </div>
     )
   }
