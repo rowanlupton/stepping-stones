@@ -129,11 +129,6 @@ class Wizard extends Component {
     this.updateSettings = this.updateSettings.bind(this)
     this.applySettings = this.applySettings.bind(this)
   }
-  handleSubmit(e) {
-    e.preventDefault()
-    document.querySelector('#roundWizard label').innerText = "hello"
-  }
-
   updateSettings (event) {
     const t = event.target
     // not using the ~~fancy~~ syntax here for consistency with `value`
