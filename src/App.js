@@ -97,7 +97,7 @@ class WizardSettings extends Component {
                   type="number"
                   name="startingNumber"
                   onChange={this.handleChange}
-                  value={startingNumber} />
+                  value={this.state.startingNumberOfCards} />
               </label>
               <label> Play the round of one?
                 <input type="checkbox"
@@ -159,6 +159,7 @@ class Wizard extends Component {
           players = {this.state.players}
           updateSettings={this.updateSettings}
           applySettings={this.applySettings}
+          startingNumberOfCards={this.state.startingNumberOfCards}
         />
       </div>
     )
@@ -241,6 +242,7 @@ class App extends Component {
         </header>
         <Wizard
           players = {this.state.players}
+          startingNumberOfCards={this.state.startingNumberOfCards}
         />
         <Board
           startingNumberOfCards = {this.state.startingNumberOfCards}
