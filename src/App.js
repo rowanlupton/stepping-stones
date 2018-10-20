@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
 
 class Box extends Component {
@@ -26,8 +25,6 @@ class Round extends Component {
   }
 
   render () {
-    console.log(this.state.players)
-    console.log(this.state.dealer)
     return (
       <div className="Row">
         <div className="round-information">
@@ -48,7 +45,6 @@ class Round extends Component {
             player = {player}
           />
         )}
-        <button onClick={this.state.drawRound} />
       </div>
     )
   }
@@ -99,29 +95,32 @@ class Board extends Component {
     if (this.state.roundOfOne)
       this.state.roundNumbersOfCards.splice(this.state.startingNumberOfCards-1, 0, 1)
 
-    this.drawRound = this.drawRound.bind(this)
+    this.state.roundList = []
+
+    this.addRound = this.addRound.bind(this)
   }
 
-  drawRound () {
+  addRound () {
     this.boardElement = document.querySelector('#board')
     this.setState({roundIndex: (this.state.roundIndex+1)})
-    ReactDOM.render (
+
+    let newRound = (
       <Round
         key = {this.state.roundIndex}
         roundNumberOfCards = {this.state.roundNumbersOfCards[this.state.roundIndex]}
         players = {this.state.players}
         dealer = {(this.state.roundIndex) % this.state.players.length}
-        drawRound = {this.drawRound}
-      />,
-      this.boardElement
+      />
     )
+
+    this.setState({roundList: [...this.state.roundList, newRound]})
   }
 
   render () {
     return (
       <div id="board">
-
-        <button onClick={this.drawRound} />
+        {this.state.roundList}
+        <button onClick={this.addRound} />
       </div>
     )
   }
