@@ -21,7 +21,7 @@ class Round extends Component {
     super(props)
     this.state = {...props}
     let trumps = ["spades","hearts","diamonds","clubs","no trumps"]
-    this.state.trump = trumps[Math.floor(Math.random()*5)]
+    this.state.trump = "\u00A0"
   }
 
   render () {
@@ -50,6 +50,65 @@ class Round extends Component {
   }
 }
 
+class WizardSettings extends Component {
+  constructor(props) {
+    super(props)
+    // this.state = {...props}
+
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleChange (event) {
+    this.props.updateSettings(event)
+  }
+  handleSubmit (event) {
+    event.preventDefault()
+    this.props.applySettings(event)
+  }
+  render () {
+    const {
+      numberOfPlayers,
+      startingNumber,
+      toggleRoundOfOne
+    } = this.props
+    return  <form onSubmit={this.handleSubmit} className="Settings">
+              <label>Number of Players:
+                <input
+                  type="number"
+                  name="numberOfPlayers"
+                  onChange={this.handleChange}
+                  value={numberOfPlayers} />
+              </label>
+              <label>Player names:
+              {[...Array(numberOfPlayers)].map((player,i) =>
+                <input
+                  type="text"
+                  onChange={this.handleChange}
+                  key={i}
+                  data-index={i} />
+              )}
+              </label>
+              <label>Starting number:
+                <input
+                  type="number"
+                  name="startingNumber"
+                  onChange={this.handleChange}
+                  value={startingNumber} />
+              </label>
+              <label> Play the round of one?
+                <input type="checkbox"
+                  name="toggleRoundOfOne"
+                  onChange={this.handleChange}
+                  value={toggleRoundOfOne} />
+              </label>
+              <label> Start
+                <input type="submit" />
+              </label>
+            </form>
+          }
+}
+
 class Wizard extends Component {
   // placeholder for the bit of code that prompts for round info (e.g. bids,
   // tricks taken, etc)
@@ -70,11 +129,9 @@ class Wizard extends Component {
   }
   render () {
     return (
-      <form onSubmit={this.handleSubmit} className="Wizard" id="roundWizard">
-        <label>label text</label>
-        <input type="number" />
-        <input type="submit" />
-      </form>
+      <WizardSettings
+      
+      />
     )
   }
 }
