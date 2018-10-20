@@ -53,7 +53,7 @@ class Round extends Component {
 class WizardSettings extends Component {
   constructor(props) {
     super(props)
-    // this.state = {...props}
+    this.state = {...props}
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -68,26 +68,29 @@ class WizardSettings extends Component {
   }
   render () {
     const {
-      numberOfPlayers,
       startingNumber,
       toggleRoundOfOne
     } = this.props
+
+    let nameFields = this.state.players.map((player,i) =>
+      <input
+        type="text"
+        value={this.state.players[i].name}
+        onChange={this.handleChange}
+        key={i}
+        data-index={i} />
+    )
+
     return  <form onSubmit={this.handleSubmit} className="Settings">
               <label>Number of Players:
                 <input
                   type="number"
                   name="numberOfPlayers"
                   onChange={this.handleChange}
-                  value={numberOfPlayers} />
+                  value={this.state.players.length} />
               </label>
               <label>Player names:
-              {[...Array(numberOfPlayers)].map((player,i) =>
-                <input
-                  type="text"
-                  onChange={this.handleChange}
-                  key={i}
-                  data-index={i} />
-              )}
+              {nameFields}
               </label>
               <label>Starting number:
                 <input
@@ -122,16 +125,42 @@ class Wizard extends Component {
   constructor (props) {
     super(props)
     this.state = {...props}
+
+    this.updateSettings = this.updateSettings.bind(this)
+    this.applySettings = this.applySettings.bind(this)
   }
   handleSubmit(e) {
     e.preventDefault()
     document.querySelector('#roundWizard label').innerText = "hello"
   }
+
+  updateSettings (event) {
+    const t = event.target
+    // not using the ~~fancy~~ syntax here for consistency with `value`
+    const name = t.name
+    const value = t.type === 'checkbox' ? t.checked : Number(t.value)
+
+    if (t.type === 'text') {
+      let players = this.state.players
+      players[t.dataset.index] = {'name': t.value}
+      this.setState({players: players})
+    } else {
+      this.setState({[name]: value});
+    }
+  }
+  applySettings (event) {
+    this.setState((settings) => ({settings: true}))
+  }
+
   render () {
     return (
-      <WizardSettings
-      
-      />
+      <div id="wizard">
+        <WizardSettings
+          players = {this.state.players}
+          updateSettings={this.updateSettings}
+          applySettings={this.applySettings}
+        />
+      </div>
     )
   }
 }
@@ -198,7 +227,7 @@ class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      players: [new Player({name: "rowan"}), new Player({name: "nicki"}), new Player({name: "lynda"})],
+      players: [new Player({name: "rowan"}), new Player({name: "robert"}), new Player({name: "helen"}), new Player({name: "lynda"})],
       startingNumberOfCards: 7,
       roundOfOne: true
     }
@@ -210,7 +239,9 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Stepping Stones Scoring</h1>
         </header>
-        <Wizard />
+        <Wizard
+          players = {this.state.players}
+        />
         <Board
           startingNumberOfCards = {this.state.startingNumberOfCards}
           roundOfOne = {this.state.roundOfOne}
