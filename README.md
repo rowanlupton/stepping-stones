@@ -11,6 +11,3 @@ Heavily a work-in-progress. I'll put issue tracking live soon to track what all 
 ## Game Rules
 
 Rules to come, but getting the application is my number one priority for now.
-
-
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
