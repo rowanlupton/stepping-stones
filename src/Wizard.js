@@ -22,7 +22,7 @@ class WizardSettings extends Component {
       toggleRoundOfOne,
       players
     } = this.props
-
+    console.log(players)
     let nameFields = players.map((player,i) =>
       <input
         type="text"

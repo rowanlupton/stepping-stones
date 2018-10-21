@@ -73,7 +73,7 @@ class Board extends Component {
   }
   componentDidUpdate (prevProps) {
     if (this.props.startingNumberOfCards !== prevProps.startingNumberOfCards) {
-      const {startingNumberOfCards, roundOfOne} = this.props
+      const {startingNumberOfCards, toggleRoundOfOne} = this.props
       this.setState({roundIndex: 0})
 
       let iterator = [...Array(Number(this.props.startingNumberOfCards))]
@@ -83,12 +83,15 @@ class Board extends Component {
         roundNumbersOfCards.push(i);
       }
 
-      if (!roundOfOne) {
+      if (!toggleRoundOfOne) {
         // double destructured because otherwise reverse() does both of them
         // https://vignette.wikia.nocookie.net/steven-universe/images/e/ec/SU_-_Arcade_Mania_Double_Dogs%21.png
-        roundNumbersOfCards = [...roundNumbersOfCards,   ...[...roundNumbersOfCards].reverse()]
+        roundNumbersOfCards = [ ...roundNumbersOfCards,
+                                ...[...roundNumbersOfCards].reverse()]
       } else {
-        roundNumbersOfCards = [...roundNumbersOfCards, 1, ...[...roundNumbersOfCards].reverse()]
+        roundNumbersOfCards = [ ...roundNumbersOfCards,
+                                1,
+                                ...[...roundNumbersOfCards].reverse()]
       }
       this.setState({roundNumbersOfCards: roundNumbersOfCards})
     }

@@ -20,35 +20,45 @@ class App extends Component {
     this.state = {
       players: [...Array(4)].map((i) => {return new Player}),
       startingNumberOfCards: 7,
-      roundOfOne: true
+      toggleRoundOfOne: true
     }
 
     this.updateSettings = this.updateSettings.bind(this)
+    this.applySettings = this.applySettings.bind(this)
     this.setRoundOfOne = this.setRoundOfOne.bind(this)
   }
 
   updateSettings (event) {
     const t = event.target
-    let value
+    let value = t.value
+    let players = [...this.state.players]
     switch (t.name) {
       case 'numberOfPlayers':
-        value = Number(t.value)
+        value = Number(value)
+
         if (value > this.state.players.length) {
-          value = this.state.players.concat(new Player)
+          [...Array(value - this.state.players.length)].map((i) => {
+            console.log('hi')
+            players = players.concat(new Player)
+          })
         } else if (value < this.state.players.length) {
-          value = this.state.players.slice(0,-1)
+          [...Array(this.state.players.length - value)].map((i) => {
+            players = players.slice(0,-1)
+          })
         }
-        this.setState({players: value})
+        this.setState({players: players})
         break
       case 'startingNumberOfCards':
       case 'toggleRoundOfOne':
-        value = (t.type === 'checkbox') ?  t.checked : t.value
+        value = (t.type === 'checkbox') ? t.checked : value
         const name = t.name
+        console.log(t.type)
+        console.log(name)
+        console.log(value)
         this.setState({[name]: value})
-
+        console.log(this.state)
         break
       case 'playerName':
-        let players = this.state.players
         players[t.dataset.index] = new Player({name: t.value})
         this.setState({players: players})
         break
@@ -59,6 +69,9 @@ class App extends Component {
         console.log('Unrecognized input:'+t.name)
         break
     }
+  }
+  applySettings (event) {
+
   }
   setRoundOfOne (roundOfOne) {
     this.setState({roundOfOne: roundOfOne})
@@ -71,15 +84,16 @@ class App extends Component {
           <h1 className="App-title">Stepping Stones Scoring</h1>
         </header>
         <Wizard
-          players={this.state.players}
-          startingNumberOfCards={this.state.startingNumberOfCards}
-          updateSettings={this.updateSettings}
+          players               = {this.state.players}
+          startingNumberOfCards = {this.state.startingNumberOfCards}
+          applySettings         = {this.applySettings}
+          updateSettings        = {this.updateSettings}
         />
         <Board
-          startingNumberOfCards={this.state.startingNumberOfCards}
-          roundOfOne={this.state.roundOfOne}
-          players={this.state.players}
-          setRoundOfOne={this.setRoundOfOne}
+          startingNumberOfCards = {this.state.startingNumberOfCards}
+          toggleRoundOfOne      = {this.state.toggleRoundOfOne}
+          players               = {this.state.players}
+          setRoundOfOne         = {this.setRoundOfOne}
         />
       </div>
     )
