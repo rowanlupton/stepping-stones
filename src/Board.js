@@ -9,7 +9,7 @@ class Box extends Component {
   render () {
     return (
       <div className="Box">
-        <div className="score">{this.state.player.score}</div>
+        []
       </div>
     )
   }
@@ -72,7 +72,8 @@ class Board extends Component {
     this.addRound = this.addRound.bind(this)
   }
   componentDidUpdate (prevProps) {
-    if (this.props.startingNumberOfCards !== prevProps.startingNumberOfCards) {
+    if (this.props.startingNumberOfCards !== prevProps.startingNumberOfCards
+        || this.props.toggleRoundOfOne !== prevProps.toggleRoundOfOne) {
       const {startingNumberOfCards, toggleRoundOfOne} = this.props
       this.setState({roundIndex: 0})
 

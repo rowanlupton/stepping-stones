@@ -5,8 +5,10 @@ import './App.css'
 
 class Player {
   constructor (props) {
-    this.name = (props) ? props.name : ""
-    this.score = 0
+    this.name   = (props) ? props.name : ""
+    this.rounds = [
+      // {bid: b, tricksTaken: t}
+    ]
   }
 
   updateScore (difference) {
@@ -20,6 +22,7 @@ class App extends Component {
     this.state = {
       players: [...Array(4)].map((i) => {return new Player}),
       startingNumberOfCards: 7,
+      currentNumberOfCards: 7,
       toggleRoundOfOne: false,
       toggleStartGame: false
     }
@@ -51,7 +54,7 @@ class App extends Component {
         break
       case 'startingNumberOfCards':
       case 'toggleRoundOfOne':
-        value = (t.type === 'checkbox') ? t.checked : value
+        value = (t.type === 'checkbox') ? t.checked : Number(value)
         const name = t.name
         console.log(t.type)
         console.log(name)
@@ -87,6 +90,7 @@ class App extends Component {
         <Wizard
           players               = {this.state.players}
           startingNumberOfCards = {this.state.startingNumberOfCards}
+          currentNumberOfCards  = {this.state.currentNumberOfCards}
           applySettings         = {this.applySettings}
           updateSettings        = {this.updateSettings}
           toggleStartGame       = {this.state.toggleStartGame}
