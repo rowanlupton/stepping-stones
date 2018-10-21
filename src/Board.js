@@ -85,6 +85,7 @@ class Board extends Component {
 
       if (!roundOfOne) {
         // double destructured because otherwise reverse() does both of them
+        // https://vignette.wikia.nocookie.net/steven-universe/images/e/ec/SU_-_Arcade_Mania_Double_Dogs%21.png
         roundNumbersOfCards = [...roundNumbersOfCards,   ...[...roundNumbersOfCards].reverse()]
       } else {
         roundNumbersOfCards = [...roundNumbersOfCards, 1, ...[...roundNumbersOfCards].reverse()]
