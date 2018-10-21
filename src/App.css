@@ -30,11 +30,11 @@ header {
   grid-row-start: 2;
   width: 100%;
   height: calc(100vh - 100px);
+  overflow: scroll;
 }
 
 .App #board {
   grid-column: 1 / 2;
-  overflow: scroll;
 }
 
 .App #wizard {
