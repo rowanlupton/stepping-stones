@@ -45,7 +45,10 @@ class App extends Component {
         this.setState({players: players})
         break
       case 'submit':
+        console.log('submit')
+        break
       default:
+        console.log('Unrecognized input:'+t.name)
         break
     }
   }
