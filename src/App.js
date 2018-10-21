@@ -20,7 +20,8 @@ class App extends Component {
     this.state = {
       players: [...Array(4)].map((i) => {return new Player}),
       startingNumberOfCards: 7,
-      toggleRoundOfOne: true
+      toggleRoundOfOne: false,
+      toggleStartGame: false
     }
 
     this.updateSettings = this.updateSettings.bind(this)
@@ -71,7 +72,7 @@ class App extends Component {
     }
   }
   applySettings (event) {
-    
+    this.setState({toggleStartGame: true})
   }
   setRoundOfOne (roundOfOne) {
     this.setState({roundOfOne: roundOfOne})
@@ -88,6 +89,7 @@ class App extends Component {
           startingNumberOfCards = {this.state.startingNumberOfCards}
           applySettings         = {this.applySettings}
           updateSettings        = {this.updateSettings}
+          toggleStartGame       = {this.state.toggleStartGame}
         />
         <Board
           startingNumberOfCards = {this.state.startingNumberOfCards}
