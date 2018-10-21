@@ -76,22 +76,20 @@ class Board extends Component {
       const {startingNumberOfCards, roundOfOne} = this.props
       this.setState({roundIndex: 0})
 
-      let iterator = [...Array(this.props.startingNumberOfCards)]
+      let iterator = [...Array(Number(this.props.startingNumberOfCards))]
       let roundNumbersOfCards = []
       // i >= 2 because we want to leave off the round of 1 by default
       for (let i = iterator.length; i >= 2; i--) {
         roundNumbersOfCards.push(i);
       }
-      roundNumbersOfCards = roundNumbersOfCards.concat([...roundNumbersOfCards].reverse())
-      this.setState({
-        roundNumbersOfCards: roundNumbersOfCards
-      })
 
-      if (roundOfOne) {
-        let newArray = roundNumbersOfCards.slice()
-        newArray.splice(startingNumberOfCards-1, 0, 1)
-        this.setState({roundNumbersOfCards: newArray})
+      if (!roundOfOne) {
+        // double destructured because otherwise reverse() does both of them
+        roundNumbersOfCards = [...roundNumbersOfCards,   ...[...roundNumbersOfCards].reverse()]
+      } else {
+        roundNumbersOfCards = [...roundNumbersOfCards, 1, ...[...roundNumbersOfCards].reverse()]
       }
+      this.setState({roundNumbersOfCards: roundNumbersOfCards})
     }
   }
   addRound () {
