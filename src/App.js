@@ -38,11 +38,14 @@ class App extends Component {
         const value = t.type === 'checkbox' ? t.checked : t.value
         const name = t.name
         this.setState({[name]: value})
+        break
       case 'playerName':
         let players = this.state.players
         players[t.dataset.index] = new Player({name: t.value})
         this.setState({players: players})
+        break
       case 'submit':
+      default:
         break
     }
   }
