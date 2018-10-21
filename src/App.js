@@ -35,7 +35,7 @@ class App extends Component {
       case 'numberOfPlayers':
       case 'startingNumberOfCards':
       case 'toggleRoundOfOne':
-        const value = t.type === 'checkbox' ? t.checked : Number(t.value)
+        const value = t.type === 'checkbox' ? t.checked : t.value
         const name = t.name
         this.setState({[name]: value})
       case 'playerName':
@@ -57,6 +57,7 @@ class App extends Component {
           <h1 className="App-title">Stepping Stones Scoring</h1>
         </header>
         <Wizard
+          numberOfPlayers={this.state.numberOfPlayers}
           players={this.state.players}
           startingNumberOfCards={this.state.startingNumberOfCards}
           updateSettings={this.updateSettings}
@@ -64,7 +65,6 @@ class App extends Component {
         <Board
           startingNumberOfCards={this.state.startingNumberOfCards}
           roundOfOne={this.state.roundOfOne}
-          numberOfPlayers={this.state.numberOfPlayers}
           players={this.state.players}
           setRoundOfOne={this.setRoundOfOne}
         />
