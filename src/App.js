@@ -71,7 +71,7 @@ class App extends Component {
     }
   }
   applySettings (event) {
-
+    
   }
   setRoundOfOne (roundOfOne) {
     this.setState({roundOfOne: roundOfOne})
