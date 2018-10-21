@@ -20,15 +20,14 @@ class WizardSettings extends Component {
     const {
       startingNumberOfCards,
       toggleRoundOfOne,
-      players,
-      numberOfPlayers
+      players
     } = this.props
 
-    let nameFields = this.state.players.map((player,i) =>
+    let nameFields = players.map((player,i) =>
       <input
         type="text"
         name="playerName"
-        value={player.name}
+        value={(player) ? player.name : ""}
         onChange={this.handleChange}
         key={i}
         data-index={i} />
@@ -40,11 +39,12 @@ class WizardSettings extends Component {
                   type="number"
                   name="numberOfPlayers"
                   onChange={this.handleChange}
-                  value={numberOfPlayers} />
+                  value={players.length} />
               </label>
-              <label>Player names:
-              {nameFields}
-              </label>
+              <fieldset>
+                <legend>Player names:</legend>
+                {nameFields}
+              </fieldset>
               <label>Starting number:
                 <input
                   type="number"

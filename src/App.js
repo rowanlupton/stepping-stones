@@ -5,7 +5,7 @@ import './App.css'
 
 class Player {
   constructor (props) {
-    this.name = props.name
+    this.name = (props) ? props.name : ""
     this.score = 0
   }
 
@@ -18,8 +18,7 @@ class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      numberOfPlayers: 4,
-      players: [],
+      players: [...Array(4)].map((i) => {return new Player}),
       startingNumberOfCards: 7,
       roundOfOne: true
     }
@@ -30,14 +29,23 @@ class App extends Component {
 
   updateSettings (event) {
     const t = event.target
-
+    let value
     switch (t.name) {
       case 'numberOfPlayers':
+        value = Number(t.value)
+        if (value > this.state.players.length) {
+          value = this.state.players.concat(new Player)
+        } else if (value < this.state.players.length) {
+          value = this.state.players.slice(0,-1)
+        }
+        this.setState({players: value})
+        break
       case 'startingNumberOfCards':
       case 'toggleRoundOfOne':
-        const value = t.type === 'checkbox' ? t.checked : t.value
+        value = (t.type === 'checkbox') ?  t.checked : t.value
         const name = t.name
         this.setState({[name]: value})
+
         break
       case 'playerName':
         let players = this.state.players
@@ -63,7 +71,6 @@ class App extends Component {
           <h1 className="App-title">Stepping Stones Scoring</h1>
         </header>
         <Wizard
-          numberOfPlayers={this.state.numberOfPlayers}
           players={this.state.players}
           startingNumberOfCards={this.state.startingNumberOfCards}
           updateSettings={this.updateSettings}
@@ -79,4 +86,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App
