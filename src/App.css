@@ -44,7 +44,7 @@ header {
   color: #dedede;
 }
 
-.Settings {
+#wizard>form {
   display: flex;
   flex-direction: column;
 

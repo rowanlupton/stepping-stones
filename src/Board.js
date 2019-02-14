@@ -19,7 +19,7 @@ class Round extends Component {
   constructor (props) {
     super(props)
     this.state = {}
-    let trumps = ["spades","hearts","diamonds","clubs","no trumps"]
+    // let trumps = ["spades","hearts","diamonds","clubs","no trumps"]
     this.state.trump = "\u00A0"
   }
 

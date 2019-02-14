@@ -20,7 +20,7 @@ class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      players: [...Array(4)].map((i) => {return new Player}),
+      players: [...Array(4)].map((i) => {return new Player()}),
       startingNumberOfCards: 7,
       currentNumberOfCards: 7,
       toggleRoundOfOne: false,
@@ -42,12 +42,13 @@ class App extends Component {
 
         if (value > this.state.players.length) {
           [...Array(value - this.state.players.length)].map((i) => {
-            console.log('hi')
-            players = players.concat(new Player)
+            players = players.concat(new Player())
+            return true
           })
         } else if (value < this.state.players.length) {
           [...Array(this.state.players.length - value)].map((i) => {
             players = players.slice(0,-1)
+            return true
           })
         }
         this.setState({players: players})
@@ -56,13 +57,10 @@ class App extends Component {
       case 'toggleRoundOfOne':
         value = (t.type === 'checkbox') ? t.checked : Number(value)
         const name = t.name
-        console.log(t.type)
-        console.log(name)
-        console.log(value)
         this.setState({[name]: value})
-        console.log(this.state)
         break
       case 'playerName':
+        console.log(new Player({name: t.value}))
         players[t.dataset.index] = new Player({name: t.value})
         this.setState({players: players})
         break
@@ -73,6 +71,9 @@ class App extends Component {
         console.log('Unrecognized input:'+t.name)
         break
     }
+  }
+  updatePlayerArrays (event) {
+
   }
   applySettings (event) {
     this.setState({toggleStartGame: true})
